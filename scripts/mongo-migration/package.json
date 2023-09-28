@@ -1,0 +1,17 @@
+{
+  "name": "myriad-scripts",
+  "version": "1.0.0",
+  "description": "MongoDB data migration tool",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "setup": "docker-compose up -d && ts-node setup.ts",
+    "teardown": "docker-compose down"
+  },
+  "dependencies": {
+    "@types/mongodb": "^4.0.7",
+    "mongodb": "^6.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
