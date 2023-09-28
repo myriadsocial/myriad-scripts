@@ -12,11 +12,9 @@ This tool facilitates the migration of data from a source MongoDB instance to a 
 ### 1. Clone & Navigate
 
 ```sh
-git clone [repository-url]
+git clone git@github.com:myriadsocial/myriad-scripts.git
 cd myriad-scripts/scripts/mongo-migration
 ```
-
-Replace [repository-url] with your repo's URL.
 
 ### 2. Install Dependencies
 

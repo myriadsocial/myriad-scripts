@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+  old-myriad:
+    image: myriadsocial/myriad-node:356ed4781eb22a3a94ba9c1b22ed333aa00e4791
+    command: 
+      - '--dev'
+      - '--ws-external'
+      - '--rpc-cors=all'
+    ports:
+      - "9944:9944"  # Websocket port
+      - "9933:9933"  # RPC port
+  # myriad:
+  #   image: myriadsocial/myriad-node-parachain:1bed5d4917245e46d20ee68227abef4a5a4960d2
+  #   command: 
+  #     - '--dev'
+  #     - '--rpc-external'
+  #     - '--rpc-cors=all'
+  #   ports:
+  #     - "9944:9944"  # Websocket port
+  #     - "9933:9933"  # RPC port

@@ -1,0 +1,25 @@
+# Node.js specific
+node_modules/
+*.log
+npm-debug.log
+pnpm-lock.yaml
+
+# TypeScript
+dist/
+*.tsbuildinfo
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+*.sublime*
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Docker
+*.env
+docker-compose.override.yml
