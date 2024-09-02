@@ -2,6 +2,46 @@
 
 This repository hosts two essential scripts for MongoDB data migration and Polkadot asset airdrops. Refer to each project's respective directory for detailed instructions.
 
+Directory structure:
+
+```
+├── .gitignore
+├── directory_structure.txt
+├── README.md
+├── scripts
+│   ├── substrate-address-extractor
+│   │   ├── src
+│   │   │   └── main.ts
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   ├── mongo-migration
+│   │   ├── setup.ts
+│   │   ├── package.json
+│   │   ├── docker-compose.yml
+│   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── index.ts
+│   ├── myriad-address-snapshotter
+│   │   ├── src
+│   │   │   └── main.ts
+│   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   └── myriad_addresses.json
+│   ├── extracted.txt
+│   └── rococo-airdrop
+│       ├── airdropList.ts
+│       ├── package.json
+│       ├── docker-compose.yml
+│       ├── README.md
+│       ├── tsconfig.json
+│       ├── failed_airdrops.json
+│       ├── index.ts
+│       └── logs
+│           └── devnet-airdrop-execution.logs.txt
+├── .git
+└── raw.txt
+```
+
 ## MongoDB Data Migration Tool
 
 **Description:**  
