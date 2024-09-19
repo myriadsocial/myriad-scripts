@@ -80,9 +80,8 @@ This script will prompt you for the following information:
 
 The script will automatically perform the following steps:
 1. Myriad Address Snapshotter
-2. MongoDB Migration
-3. Substrate Address Extractor
-4. Rococo Airdrop
+2. Substrate Address Extractor
+3. Rococo Airdrop
 
 ### 3. Manual Process (if needed)
 
