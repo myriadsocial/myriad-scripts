@@ -1,6 +1,12 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
+import * as fs from 'fs';
 
-async function fetchAllAddresses(nodeUrl: string): Promise<string[]> {
+interface UniqueAddressesData {
+    numberOfUniqueAddresses: number;
+    uniqueAddresses: string[];
+}
+
+async function fetchAllAddresses(nodeUrl: string): Promise<UniqueAddressesData> {
     const provider = new WsProvider(nodeUrl);
     const api = await ApiPromise.create({ provider });
 
@@ -12,14 +18,11 @@ async function fetchAllAddresses(nodeUrl: string): Promise<string[]> {
     for (let blockNumber = 0; blockNumber <= latestBlockNumber; blockNumber++) {
         const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
         const signedBlock = await api.rpc.chain.getBlock(blockHash);
-        // console.log("Block number: ", blockNumber);
 
         for (const extrinsic of signedBlock.block.extrinsics) {
             const address = extrinsic.signer.toString();
-            // console.log("Address, latestBlockNumber: ", address, latestBlockNumber);
             addressSet.add(address);
 
-            // Assuming the extrinsic is a balance transfer, record the destination address
             if (extrinsic.method.section === 'balances' && extrinsic.method.method === 'transfer') {
                 const destAddress = extrinsic.args[0].toString();
                 addressSet.add(destAddress);
@@ -29,13 +32,21 @@ async function fetchAllAddresses(nodeUrl: string): Promise<string[]> {
 
     provider.disconnect();
 
-    return [...addressSet];
+    const uniqueAddresses = [...addressSet];
+    return {
+        numberOfUniqueAddresses: uniqueAddresses.length,
+        uniqueAddresses: uniqueAddresses
+    };
 }
 
 const nodeUrl = 'wss://ws-rpc.testnet.myriad.social';
-fetchAllAddresses(nodeUrl).then(addresses => {
-    console.log('Total unique addresses:', addresses.length);
-    console.log('Addresses:', addresses);
+fetchAllAddresses(nodeUrl).then(data => {
+    const fileContent = `
+export const uniqueAddressesData = ${JSON.stringify(data, null, 2)};
+`;
+
+    fs.writeFileSync('uniqueAddresses.ts', fileContent);
+    console.log('Data saved to uniqueAddresses.ts');
 }).catch(error => {
     console.error('Error fetching addresses:', error);
 });
