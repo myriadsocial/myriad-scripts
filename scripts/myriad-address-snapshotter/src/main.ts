@@ -5,17 +5,12 @@ import { hexToU8a } from '@polkadot/util';
 import { encodeAddress } from '@polkadot/util-crypto';
 
 function hexToSubstrateAddress(hex: string, ss58Format?: number): string {
-    // Convert hex string to Uint8Array
     const u8a = hexToU8a(hex);
-
-    // Encode to SS58 format
     return encodeAddress(u8a, ss58Format);
 }
 
-const DB_URL = 'mongodb://localhost:27017';
-
-async function fetchAllMyriadAddresses(): Promise<{ address: string, networkId: string }[]> {
-    const client = new MongoClient(DB_URL);
+async function fetchAllMyriadAddresses(dbUrl: string): Promise<{ address: string, networkId: string }[]> {
+    const client = new MongoClient(dbUrl);
     await client.connect();
     const db = client.db('myriad');
     const walletsCollection = db.collection('wallets');
@@ -35,7 +30,7 @@ async function fetchAllMyriadAddresses(): Promise<{ address: string, networkId: 
 
     await client.close();
 
-    console.log(`We found a couple of addressess: ${addresses.length}`);
+    console.log(`We found a couple of addresses: ${addresses.length}`);
 
     return addresses;
 }
@@ -45,15 +40,16 @@ async function initiateApiPromise(nodeUrl: string): Promise<ApiPromise> {
     return await ApiPromise.create({ provider: wsProvider });
 }
 
-async function getEligibleAddresses(nodeUrl: string): Promise<{ address: string, balance: string, networkId: string }[]> {
+async function getEligibleAddresses(dbUrl: string, nodeUrl: string): Promise<{ address: string, balance: string, networkId: string }[]> {
     const api = await initiateApiPromise(nodeUrl);
-    const addresses = await fetchAllMyriadAddresses();
+    const addresses = await fetchAllMyriadAddresses(dbUrl);
     const eligibleAddresses: { address: string, balance: string, networkId: string }[] = [];
 
-    console.log("Getting balance for eligible addressess...");
+    console.log("Getting balance for eligible addresses...");
 
     for (let item of addresses) {
         const { nonce, data: balance } = (await api.query.system.account(item.address)) as any;
+        console.log(item.address);
         if (balance.free.gt(api.consts.balances.existentialDeposit)) {
             eligibleAddresses.push({
                 address: item.address,
@@ -68,8 +64,16 @@ async function getEligibleAddresses(nodeUrl: string): Promise<{ address: string,
     return eligibleAddresses;
 }
 
-const nodeUrl = 'wss://ws-rpc.testnet.myriad.social';
-getEligibleAddresses(nodeUrl).then(addresses => {
+// Get command-line arguments
+const args = process.argv.slice(2);
+if (args.length !== 2) {
+    console.error('Usage: pnpm start <MONGO_URL> <WSS_URL>');
+    process.exit(1);
+}
+
+const [dbUrl, nodeUrl] = args;
+
+getEligibleAddresses(dbUrl, nodeUrl).then(addresses => {
     console.log('Total unique addresses:', addresses.length);
     console.log('Addresses:', addresses);
 }).catch(error => {

@@ -1,4 +1,4 @@
-export const airdropAddresses: { address: string, balance: string, networkId: string }[] = [
+export const airdropAddresses = [
   {
     "address": "5Ckp5p8yDRkLVh8pkSeQHK8xFaojGt4eUjMoHBMKLx7Mwem7",
     "balance": "3134199999375000000",

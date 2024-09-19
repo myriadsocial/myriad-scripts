@@ -12,10 +12,11 @@ async function fetchAllAddresses(nodeUrl: string): Promise<string[]> {
     for (let blockNumber = 0; blockNumber <= latestBlockNumber; blockNumber++) {
         const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
         const signedBlock = await api.rpc.chain.getBlock(blockHash);
+        // console.log("Block number: ", blockNumber);
 
         for (const extrinsic of signedBlock.block.extrinsics) {
             const address = extrinsic.signer.toString();
-            console.log(address, latestBlockNumber);
+            // console.log("Address, latestBlockNumber: ", address, latestBlockNumber);
             addressSet.add(address);
 
             // Assuming the extrinsic is a balance transfer, record the destination address

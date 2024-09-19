@@ -65,34 +65,30 @@ We've provided a shell script that automates the entire process. To use it:
 
 1. Make the script executable:
    ```sh
-   chmod +x run_migration_airdrop.sh
+   chmod +x run.sh
    ```
 
 2. Run the script:
    ```sh
-   ./run_migration_airdrop.sh
+   ./run.sh
    ```
 
-This script will automatically perform the following steps:
-- MongoDB Snapshot and Migration
-- Myriad Address Extraction
-- Airdrop Process
+This script will prompt you for the following information:
+- MongoDB URL (default: mongodb://localhost:27017)
+- WebSocket URL for Myriad network (default: wss://ws-rpc.testnet.myriad.social)
+- WebSocket URL for Rococo network (default: wss://ws-rpc.devnet.myriad.social/websocket/)
+
+The script will automatically perform the following steps:
+1. Myriad Address Snapshotter
+2. MongoDB Migration
+3. Substrate Address Extractor
+4. Rococo Airdrop
 
 ### 3. Manual Process (if needed)
 
 If you prefer to run the steps manually or need to troubleshoot, follow these steps:
 
-#### MongoDB Snapshot and Migration
-```sh
-cd scripts/mongo-migration
-pnpm install
-pnpm run setup
-pnpm start
-pnpm run teardown
-cd ../..
-```
-
-#### Myriad Address Extraction
+#### 1. Myriad Address Snapshotter
 ```sh
 cd scripts/myriad-address-snapshotter
 pnpm install
@@ -100,20 +96,27 @@ pnpm start
 cd ../..
 ```
 
-#### Airdrop Process
+#### 2. Substrate Address Extractor
+```sh
+cd scripts/substrate-address-extractor
+pnpm install
+pnpm start
+cd ../..
+```
+
+#### 3. Rococo Airdrop
 ```sh
 cd scripts/rococo-airdrop
 pnpm install
-# Update airdropList.ts with extracted addresses from myriad_addresses.json
 pnpm start
 cd ../..
 ```
 
 ## 📜 Key Files Explanation
-- `run_migration_airdrop.sh`: Automation script for the entire process
-- `scripts/mongo-migration/`: Scripts for MongoDB snapshot and migration
+- `run.sh`: Automation script for the entire process
 - `scripts/myriad-address-snapshotter/`: Scripts for extracting Myriad addresses
-- `scripts/rococo-airdrop/`: Scripts for performing the airdrop
+- `scripts/substrate-address-extractor/`: Scripts for extracting Substrate addresses
+- `scripts/rococo-airdrop/`: Scripts for performing the airdrop on Rococo network
 
 ## ⚠️ Notes
 - Always ensure you have the necessary backups before performing migrations in a production environment.
@@ -124,7 +127,7 @@ cd ../..
 If you encounter issues:
 1. Ensure all dependencies are correctly installed.
 2. Verify network permissions and access.
-3. Check that MongoDB and blockchain node URLs are correct.
+3. Check that MongoDB and WebSocket URLs are correct in all relevant files.
 4. Review console output for specific error messages.
 
 For persistent problems, please open an issue in this repository with a detailed description.
