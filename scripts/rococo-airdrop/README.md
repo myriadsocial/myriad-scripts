@@ -17,6 +17,7 @@ The process begins by taking a snapshot of the current MongoDB database, retriev
 git clone git@github.com:myriadsocial/myriad-scripts.git
 cd polkadot-airdrop
 ```
+
 3. Use `pnpm` to install necessary dependencies:
 
 ```sh

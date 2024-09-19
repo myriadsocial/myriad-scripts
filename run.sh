@@ -39,6 +39,6 @@ pnpm install
 cp ../myriad-address-snapshotter/myriad_addresses.json ./airdropList.ts
 sed -i '1s/^/export const airdropAddresses = /' ./airdropList.ts
 echo ";" >> ./airdropList.ts
-# pnpm start "$ROCOCO_WSS_URL" "$MONGO_URL" "$SUDO_SEED"
+pnpm start "$ROCOCO_WSS_URL" "$MONGO_URL" "$SUDO_SEED"
 
 echo "Migration and Airdrop Process Completed"

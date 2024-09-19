@@ -5,6 +5,7 @@ This script connects to a MongoDB database and a Substrate-based blockchain node
 ## 📋 Overview
 
 The Myriad Address Snapshotter performs the following steps:
+
 1. Connects to a MongoDB database to fetch all Myriad addresses.
 2. Connects to a Substrate node to check the balance of each address.
 3. Filters addresses based on whether their balance is above the existential deposit.
@@ -41,6 +42,7 @@ pnpm start
 ```
 
 After execution, the script will:
+
 - Output the total number of eligible addresses
 - Log all eligible addresses and their balances
 - Create a `myriad_addresses.json` file with the snapshot data

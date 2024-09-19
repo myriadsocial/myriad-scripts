@@ -3,6 +3,7 @@
 This tool facilitates the migration of data from a source MongoDB instance to a destination MongoDB instance. Additionally, it validates the migrated data to ensure consistency between the two databases.
 
 ## 📋 Prerequisites
+
 - Docker & Docker Compose
 - Node.js
 - [pnpm](https://pnpm.io/)
@@ -47,10 +48,12 @@ pnpm run teardown
 ```
 
 ## 📜 Key Files Explanation
+
 - `docker-compose.yml`: Defines the configurations for the source and destination MongoDB Docker containers.
 - `index.ts`: Handles the data migration and validation logic.
 - `setup.ts`: A script for populating dummy data to the source MongoDB.
 - `package.json`: Project metadata and scripts.
 
 ## ⚠️ Note
+
 Always ensure you have the necessary backups before performing migrations in a production environment.
