@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "docker-compose up -d && ts-node index.ts",
+    "start": "ts-node index.ts",
+    "setup": "docker-compose up -d",
     "teardown": "docker-compose down",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
   },

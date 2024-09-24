@@ -30,7 +30,7 @@ async function sendAirdrop(
 
   for (let dest of eligibleAddresses) {
     console.log(`Processing Airdrop for ${dest.address}.`);
-    const transferExtrinsic = api.tx.balances.transfer(
+    const transferExtrinsic = api.tx.balances.transferKeepAlive(
       dest.address,
       dest.balance,
     );
@@ -69,7 +69,7 @@ async function storeAirdroppedAddresses(addresses: {
   balance: string;
 }) {
   const db = await initiateMongoConnection();
-  const collection = db.collection('airdroppedAddressesDevnet');
+  const collection = db.collection('airdroppedAddressesPaseo');
   await collection.insertOne(addresses);
 }
 
@@ -78,7 +78,7 @@ async function airdropToAccounts() {
 
   console.log('Eligible addresses for airdrop:', eligibleAddresses);
 
-  const nodeUrl = 'wss://ws-rpc.devnet.myriad.social/websocket/'; // Rococo Devnet
+  const nodeUrl = 'wss://ws-rpc.paseo.myriad.social/'; // Rococo Devnet
   const api = await initiateApiPromise(nodeUrl);
 
   const failedAirdrops = await sendAirdrop(api, eligibleAddresses);
